@@ -1,0 +1,39 @@
+{
+    "xsappname": "javarest",
+    "tenant-mode": "dedicated",
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.USER",
+            "description": "User scope"
+        },
+        {
+            "name": "$XSAPPNAME.Display",
+            "description": "display"
+        },
+        {
+            "name": "$XSAPPNAME.Create",
+            "description": "create"
+        },
+        {
+            "name" : "$XSAPPNAME.Delete",
+            "description": "delete"
+        }
+    ],                      
+    "role-templates": [
+        {
+            "name": "user",
+            "description" : "Token Exchange",
+            "scope-references": [ "$XSAPPNAME.USER" ]
+        },
+        {
+            "name": "RT_Manage",
+            "description": "Manage things",
+            "scope-references": [ "$XSAPPNAME.Create", "$XSAPPNAME.Delete", "$XSAPPNAME.Display" ]                                            
+        },
+        {
+            "name" : "RT_Display",
+            "description": "View things",
+            "scope-references": [ "$XSAPPNAME.Display" ]                                           
+        }                                                            
+    ]
+}

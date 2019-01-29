@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Auth</title>
+</head>
+<body>
+	<h2>Scopes:</h2>
+	<ul th:each="scope: ${scopes}">
+		<li th:text="${scope}">authority</li>
+	</ul>
+	<h2>Token info:</h2>
+	<p>TOKEN:</p>
+	<p th:text="${token.token}">token:</p>
+	<p>SIGNATURE:</p>
+	<p th:text="${token.signature}">signature:</p>
+	<p>HEADER:</p>
+	<p th:text="${token.header}">header:</p>
+	<p>PAYLOAD:</p>
+	<p th:text="${token.payload}">payload:</p>
+	<h3>Claims:</h3>
+	<ul th:each="claim: ${token.claimList}">
+		<li th:text="${claim.name} + ': ' + ${claim.value}">name: value</li>
+	</ul>
+</body>
+</html>

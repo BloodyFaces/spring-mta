@@ -1,0 +1,81 @@
+ID: javaCFMTA
+_schema-version: "2.1"
+version: 0.0.2
+
+modules:
+ - name: dbjava
+   type: hdb
+   path: db
+   parameters:
+     memory: 256M
+     disk-quota: 256M
+   requires:
+     - name: pt_hdi
+
+ - name: javarest
+   type: java
+   path: service
+   build-parameters:
+     builder: maven
+     maven-opts:
+       command: [ clean, install ]
+       defines:
+         skipTests: true
+     build-result: target/cfstarter-0.0.1-SNAPSHOT.jar
+   parameters:
+     memory: 1024M
+     disk-quota: 512M
+   provides:
+     - name: javarest
+       properties:
+         url: "${default-url}"
+   requires:
+     - name: pt_hdi
+     - name: pt_dest
+     - name: javauaa
+
+ - name: router
+   type: nodejs
+   path: router
+   parameters:
+     disk-quota: 256M
+     memory: 128M
+   requires:
+     - name: pt_router
+     - name: pt_dest
+     - name: javauaa
+     - name: javarest
+       group: destinations
+       properties:
+         name: javarest
+         url: '~{url}'
+         forwardAuthToken: true
+
+resources:
+ - name: pt_hdi
+   parameters:
+     service-plan: hdi-shared
+     service: hanatrial
+     config: {schema: JAVADB}
+   properties:
+     hdi-container-name: ${service-name}
+   type: com.sap.xs.hdi-container
+
+ - name: javauaa
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: xsuaa
+     service-plan: application
+     path: config/xs-security.json
+
+ - name: pt_dest
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: destination
+     service-plan: lite
+
+ - name: pt_router
+   parameters:
+     service-plan: app-runtime
+     service: html5-apps-repo
+   type: org.cloudfoundry.managed-service

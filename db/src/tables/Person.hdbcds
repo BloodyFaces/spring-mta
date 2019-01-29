@@ -1,0 +1,12 @@
+namespace javaCFMTA;
+
+entity Person {
+    @Comment: 'Id of Person'
+    key id : Integer64 generated always as identity ( start with 1 increment by 1 );
+    @Comment: 'Name'
+    name : String(100);
+    @Comment: 'Surname'
+    surname : String(100);
+    @Comment: 'Age'
+    age : Integer;
+};

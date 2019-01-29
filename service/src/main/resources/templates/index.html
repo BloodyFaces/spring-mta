@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Spring Boot</title>
+</head>
+<body>
+	<h2 th:text="'Application name:' + ${appName}">Application name:</h2>
+	<h3>Destinations:</h3>
+	<div th:each="destination: ${destinations}">
+		<p>-------------------------------------------------</p>
+		<p th:text="'name: ' + ${destination.name}">name: </p>
+		<p th:text="'description: ' + ${destination.description}">description: </p>
+		<p th:text="'destination type: ' + ${destination.destinationType}">destination type: </p>
+		<p>Properties</p>
+		<ul th:each="property: ${destination.propertyList}">
+			<li th:text="${property.name} + ': ' + ${property.value}">name: value</li>
+		</ul>
+		<p>-------------------------------------------------</p>
+	</div>
+</body>
+</html>
